@@ -1,0 +1,10 @@
+.idea/
+.editorconfig
+kubernetes-controllers/kind-config.yaml
+creds/
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+*.crt
+kubernetes-templating/**/charts/

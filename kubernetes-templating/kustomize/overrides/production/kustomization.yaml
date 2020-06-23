@@ -1,0 +1,10 @@
+namePrefix: prod-
+
+commonLabels:
+  environment: prod
+
+bases:
+  - ../../base
+
+patchesStrategicMerge:
+  - container_resources.yaml

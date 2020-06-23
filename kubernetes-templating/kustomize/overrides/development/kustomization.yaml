@@ -1,0 +1,7 @@
+commonLabels:
+  environment: dev
+
+namespace: hipster-shop
+
+bases:
+  - ../../base

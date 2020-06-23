@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-exporter-prom-ds
+  labels:
+    app: node-exporter-prom
+spec:
+  selector:
+    matchLabels:
+      app: node-exporter-prom-ds
+  template:
+    metadata:
+      labels:
+        app: node-exporter-prom-ds
+    spec:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+      containers:
+        - name: node-exporter-prom-ds
+          image: prom/node-exporter:v0.18.1
