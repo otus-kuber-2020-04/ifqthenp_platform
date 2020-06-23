@@ -1,0 +1,6 @@
+commonLabels:
+  app: cartservice
+resources:
+  - hipster-shop-ns.yaml
+  - cartservice-deployment.yaml
+  - cartservice-service.yaml

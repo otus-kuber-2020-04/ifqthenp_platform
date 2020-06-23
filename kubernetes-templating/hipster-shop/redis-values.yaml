@@ -1,0 +1,18 @@
+redis:
+  cluster:
+    enabled: false
+
+  nameOverride: redis-cart
+
+  fullnameOverride: redis-cart
+
+  usePassword: false
+
+  master:
+    resources:
+      limits:
+        memory: 256Mi
+        cpu: 125m
+      requests:
+        cpu: 70m
+        memory: 200Mi
