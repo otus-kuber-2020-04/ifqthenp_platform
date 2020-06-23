@@ -56,7 +56,7 @@ This role has permissions for using all resources and verbs within  `default` na
 - `kubectl auth can-i --list --namespace=default --as=system:serviceaccount:default:dave`
 
 ### Task 2
- 
+
 Created ServiceAccount `carol` in the Namespace `prometheus` and assigned permissions to `carol`
 to read, list and watch Pods in all Namespaces of the cluster
 
@@ -66,7 +66,7 @@ to read, list and watch Pods in all Namespaces of the cluster
 ### Task 3
 
 Created Namespace `dev` and two ServiceAccounts `jane` and `ken`, assigned ClusterRole `admin`
-and `view` to `jane` and `ken` respectively, using RoleBinding. A RoleBinding referring to 
+and `view` to `jane` and `ken` respectively, using RoleBinding. A RoleBinding referring to
 a ClusterRole only grants access to resources inside the RoleBinding's namespace.
 
 - `kubectl auth can-i --list --as=system:serviceaccount:dev:jane -n dev`
@@ -167,8 +167,8 @@ helm upgrade --install cert-manager jetstack/cert-manager --wait \
 Create ClusterIssuers for staging and production
 
 ```shell script
-kubectl apply -f letsencrypt-staging.yaml 
-kubectl apply -f letsencrypt-production.yaml 
+kubectl apply -f letsencrypt-staging.yaml
+kubectl apply -f letsencrypt-production.yaml
 ```
 
 ### chartmuseum
@@ -229,7 +229,7 @@ helm repo add --ca-file chartmuseum/chartmuseum.34.89.7.206.nip.io.staging.crt c
 
 To start using chartmuseum:
 
-- Create Google Cloud Storage (GCS) service account with appropriate permissions 
+- Create Google Cloud Storage (GCS) service account with appropriate permissions
 - Install [helm push plugin](https://github.com/chartmuseum/helm-push)
 - Create your own chart: `helm create my-best-chart`
 - Push your chart to the chartmuseum: `helm push my-best-chart`
@@ -261,7 +261,7 @@ helmfile sync
 kubectl -n nginx-ingress get svc
 ```
 
-Copy `EXTERNAL-IP` value and paste into `ingress.hosts.core` in`kubernetes-templating/helmfile/releases/harbor.yaml` file. 
+Copy `EXTERNAL-IP` value and paste into `ingress.hosts.core` in`kubernetes-templating/helmfile/releases/harbor.yaml` file.
 Run `helmfile apply` after that.
 
 Run `helmfile destroy` to delete and then purge releases
@@ -374,8 +374,8 @@ templating              https://harbor.34.89.83.66.nip.io/chartrepo/library
 Run `helm search repo hipster` and observe the output
 
 ```
-NAME                    CHART VERSION   APP VERSION     DESCRIPTION                                
-templating/hipster-shop 0.1.0           1.16.0          A hipster-shop Helm chart                  
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+templating/hipster-shop 0.1.0           1.16.0          A hipster-shop Helm chart
 templating/frontend     0.1.0           1.16.0          Frontend chart for hipster-shop application
 ```
 
@@ -420,7 +420,7 @@ Make sure that `pvc` resources have been created
 kubectl get pvc
 ```
 
-Add some data to the `mysql-instance` 
+Add some data to the `mysql-instance`
 
 ```shell script
 export MYSQLPOD=$(kubectl get pods -l app=mysql-instance -o jsonpath="{.items[*].metadata.name}")
