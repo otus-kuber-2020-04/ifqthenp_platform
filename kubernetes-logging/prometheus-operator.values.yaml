@@ -1,0 +1,93 @@
+prometheusOperator:
+  createCustomResource: false
+
+  nodeSelector:
+    cloud.google.com/gke-nodepool: infra-pool
+
+  tolerations:
+    - key: node-role
+      operator: Equal
+      value: infra
+      effect: NoSchedule
+
+prometheus:
+  ingress:
+    enabled: true
+    annotations: {
+      kubernetes.io/ingress.class: nginx
+    }
+    path: /
+
+    ## This value will be replaced with PROMETHEUS_INGRESS variable from 'install.sh' script
+    ## https://helm.sh/docs/intro/using_helm/#helm-install-installing-a-package
+    ##
+    hosts:
+      - prometheus.INGRESS_EXTERNAL_IP.xip.io
+  prometheusSpec:
+
+    ## Check this labels: kubectl get prometheus -o yaml -n monitoring
+    ##
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+grafana:
+
+  adminPassword: grafdracula
+
+  ingress:
+    enabled: true
+    annotations: {
+      kubernetes.io/ingress.class: nginx
+    }
+    path: /
+
+    ## This value will be replaced with GRAFANA_INGRESS variable from 'install.sh' script
+    ## https://helm.sh/docs/intro/using_helm/#helm-install-installing-a-package
+    ##
+    hosts:
+      - grafana.INGRESS_EXTERNAL_IP.xip.io
+
+  additionalDataSources:
+    - name: loki
+      type: loki
+      url: http://loki:3100
+
+  ## Configure grafana dashboard providers and insert a dashboard for elasticsearch-exporter
+  ## ref: http://docs.grafana.org/administration/provisioning/#dashboards
+  ## ref: https://github.com/helm/charts/blob/master/stable/grafana/values.yaml
+  ##
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'grafanalabs'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/grafanalabs
+
+  ## Configure grafana dashboard to import
+  ## NOTE: To use dashboards you must also enable/configure dashboardProviders
+  ##
+  dashboards:
+     grafanalabs:
+       elasticsearch-exporter:
+         gnetId: 4358
+         revision: 1
+         datasource: Prometheus
+
+alertmanager:
+  ingress:
+    enabled: true
+    annotations: {
+      kubernetes.io/ingress.class: nginx
+    }
+    path: /
+
+    ## This value will be replaced with ALERTMANAGER_INGRESS variable from 'install.sh' script
+    ## https://helm.sh/docs/intro/using_helm/#helm-install-installing-a-package
+    ##
+    hosts:
+      - alertmanager.INGRESS_EXTERNAL_IP.xip.io

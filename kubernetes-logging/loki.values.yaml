@@ -1,0 +1,3 @@
+# To use with promtail chart
+tolerations:
+  - operator: "Exists"
