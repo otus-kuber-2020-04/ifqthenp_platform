@@ -1,0 +1,16 @@
+ingress:
+  enabled: true
+  annotations: {
+    kubernetes.io/ingress.class: nginx
+  }
+  path: /
+
+  ## This value will be replaced with KIBANA_INGRESS variable from 'install.sh' script
+  ## https://helm.sh/docs/intro/using_helm/#helm-install-installing-a-package
+  ##
+  hosts:
+    - kibana.INGRESS_EXTERNAL_IP.xip.io
+
+resources:
+  requests:
+    cpu: "900m"

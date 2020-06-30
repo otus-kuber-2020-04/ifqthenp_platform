@@ -1,0 +1,47 @@
+controller:
+  replicaCount: 3
+  config:
+    log-format-escape-json: "true"
+    log-format-upstream: '{"time_local": "$time_local", "time_iso8601": "$time_iso8601", "remote_addr": "$remote_addr",
+    "remote_user": "$remote_user", "request": "$request", "status": $status, "body_bytes_sent": $body_bytes_sent,
+    "http_referer": "$http_referer", "http_user_agent": "$http_user_agent", "request_length": $request_length,
+    "request_time": $request_time, "proxy_upstream_name": "$proxy_upstream_name",
+    "proxy_alternative_upstream_name": "$proxy_alternative_upstream_name", "upstream_addr": "$upstream_addr",
+    "upstream_response_length": $upstream_response_length, "upstream_response_time": $upstream_response_time,
+    "upstream_status": $upstream_status, "req_id": "$req_id", "namespace": "$namespace", "ingress_name": "$ingress_name",
+    "service_name": "$service_name", "service_port": $service_port}'
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: "nginx-ingress"
+#      namespaceSelector: {}
+#      # Default: scrape .Release.Namespace only
+#      # To scrape all, use the following:
+#      # namespaceSelector:
+#      #   any: true
+#      scrapeInterval: 30s
+#      # honorLabels: true
+
+  tolerations:
+    - key: node-role
+      operator: Equal
+      value: infra
+      effect: NoSchedule
+
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app
+              operator: In
+              values:
+              - nginx-ingress
+          topologyKey: kubernetes.io/hostname
+
+  nodeSelector:
+    cloud.google.com/gke-nodepool: infra-pool
