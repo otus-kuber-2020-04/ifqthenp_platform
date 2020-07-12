@@ -8,3 +8,4 @@ creds/
 *.tfstate.lock.info
 *.crt
 kubernetes-templating/**/charts/
+!/kubernetes-vault/CA_cert.crt
